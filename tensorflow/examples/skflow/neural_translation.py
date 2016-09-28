@@ -31,6 +31,7 @@ from tensorflow.contrib import learn
 ENGLISH_CORPUS = "europarl-v6.fr-en.en"
 FRENCH_CORPUS = "europarl-v6.fr-en.fr"
 
+
 def read_iterator(filename):
   f = open(filename)
   for line in f:
@@ -72,6 +73,7 @@ if not (os.path.exists('train.data') and os.path.exists('test.data')):
       english_data, french_data))
   save_partitions(split_train_test(parallel_data), ['train.data', 'test.data'])
 
+
 def Xy(data):
   def split_lines(data):
     for item in data:
@@ -87,6 +89,7 @@ X_test, y_test = Xy(read_iterator('test.data'))
 
 MAX_DOCUMENT_LENGTH = 30
 HIDDEN_SIZE = 100
+
 
 def translate_model(X, y):
   byte_list = learn.ops.one_hot_matrix(X, 256)
@@ -111,10 +114,9 @@ PATH = '/tmp/tf_examples/ntm/'
 if os.path.exists(PATH):
   translator = learn.TensorFlowEstimator.restore(PATH)
 else:
-  translator = learn.TensorFlowEstimator(model_fn=translate_model,
-      n_classes=256,
-      optimizer='Adam', learning_rate=0.01, batch_size=128,
-      continue_training=True)
+  translator = learn.TensorFlowEstimator(
+    model_fn=translate_model, n_classes=256, optimizer='Adam',
+    learning_rate=0.01, batch_size=128, continue_training=True)
 
 while True:
   translator.fit(x_iter, y_iter, logdir=PATH)
@@ -123,8 +125,8 @@ while True:
   predictions = translator.predict(xpred, axis=2)
   xpred_inp = vocab_processor.reverse(xpred)
   text_outputs = vocab_processor.reverse(predictions)
-  for inp_data, input_text, pred, output_text, gold in zip(xpred, xpred_inp,
-      predictions, text_outputs, ygold):
+  for inp_data, input_text, pred, output_text, gold in zip(
+      xpred, xpred_inp, predictions, text_outputs, ygold):
     print('English: %s. French (pred): %s, French (gold): %s' %
-        (input_text, output_text, gold.decode('utf-8')))
+          (input_text, output_text, gold.decode('utf-8')))
     print(inp_data, pred)

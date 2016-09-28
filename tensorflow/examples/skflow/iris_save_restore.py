@@ -47,7 +47,7 @@ except OSError:
 classifier.save('/tmp/skflow_examples/iris_custom_model')
 classifier = None
 
-## Restore everything
+# Restore everything
 new_classifier = learn.TensorFlowEstimator.restore(
     '/tmp/skflow_examples/iris_custom_model')
 score = metrics.accuracy_score(y_test, new_classifier.predict(x_test))

@@ -52,4 +52,3 @@ classifier = learn.DNNClassifier(
 classifier.fit(x_train, y_train, steps=200)
 score = metrics.accuracy_score(y_test, classifier.predict(x_test))
 print('Accuracy: {0:f}'.format(score))
-

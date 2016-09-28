@@ -20,15 +20,17 @@ import tensorflow as tf
 from tensorflow.contrib import learn
 
 iris = datasets.load_iris()
-X_train, X_test, y_train, y_test = cross_validation.train_test_split(iris.data, iris.target,
+X_train, X_test, y_train, y_test = cross_validation.train_test_split(
+    iris.data, iris.target,
     test_size=0.2, random_state=42)
+
 
 def my_model(X, y):
   """
   This is DNN with 10, 20, 10 hidden layers, and dropout of 0.5 probability.
 
-  Note: If you want to run this example with multiple GPUs, Cuda Toolkit 7.0 and 
-  CUDNN 6.5 V2 from NVIDIA need to be installed beforehand. 
+  Note: If you want to run this example with multiple GPUs, Cuda Toolkit 7.0 and
+  CUDNN 6.5 V2 from NVIDIA need to be installed beforehand.
   """
   with tf.device('/gpu:1'):
     layers = learn.ops.dnn(X, [10, 20, 10], dropout=0.5)

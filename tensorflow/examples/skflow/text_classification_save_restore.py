@@ -23,14 +23,14 @@ import pandas
 import tensorflow as tf
 from tensorflow.contrib import learn
 
-### Training data
+# Training data
 
 # Downloads, unpacks and reads DBpedia dataset.
 dbpedia = learn.datasets.load_dataset('dbpedia')
 X_train, y_train = pandas.DataFrame(dbpedia.train.data)[1], pandas.Series(dbpedia.train.target)
 X_test, y_test = pandas.DataFrame(dbpedia.test.data)[1], pandas.Series(dbpedia.test.target)
 
-### Process vocabulary
+# Process vocabulary
 
 MAX_DOCUMENT_LENGTH = 10
 
@@ -41,15 +41,17 @@ X_test = np.array(list(vocab_processor.transform(X_test)))
 n_words = len(vocab_processor.vocabulary_)
 print('Total words: %d' % n_words)
 
-### Models
+# Models
 
 EMBEDDING_SIZE = 50
+
 
 def average_model(X, y):
   word_vectors = learn.ops.categorical_variable(X, n_classes=n_words,
       embedding_size=EMBEDDING_SIZE, name='words')
   features = tf.reduce_max(word_vectors, reduction_indices=1)
   return learn.models.logistic_regression(features, y)
+
 
 def rnn_model(X, y):
   """Recurrent neural network model to predict from sequence of words

@@ -24,10 +24,11 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.contrib import learn
 
-### Training data
+# Training data
 
 CORPUS_FILENAME = "europarl-v6.fr-en.en"
 MAX_DOC_LENGTH = 10
+
 
 def training_data(filename):
   f = open(filename)
@@ -61,7 +62,7 @@ data = byte_processor.transform(data)
 X, y = unpack_xy(iter_docs(data))
 
 
-### Model
+# Model
 
 HIDDEN_SIZE = 10
 
@@ -83,14 +84,14 @@ def get_language_model(hidden_size):
     inputs = learn.ops.one_hot_matrix(X, 256)
     inputs = tf.unpack(inputs, axis=1)
     target = tf.unpack(y, axis=1)
-    encoder_cell = tf.nn.rnn_cell.OutputProjectionWrapper(tf.nn.rnn_cell.GRUCell(hidden_size),256)
+    encoder_cell = tf.nn.rnn_cell.OutputProjectionWrapper(tf.nn.rnn_cell.GRUCell(hidden_size), 256)
     output, _ = tf.nn.rnn(encoder_cell, inputs, dtype=tf.float32)
     return learn.ops.sequence_classifier(output, target)
 
   return language_model
 
 
-### Training model.
+# Training model.
 
 estimator = learn.TensorFlowEstimator(model_fn=get_language_model(HIDDEN_SIZE),
                                       n_classes=256, optimizer='Adam',

@@ -25,11 +25,11 @@ from sklearn import metrics
 import tensorflow as tf
 from tensorflow.contrib import learn
 
-### Download and load MNIST data.
+# Download and load MNIST data.
 
 mnist = learn.datasets.load_dataset('mnist')
 
-### Linear classifier.
+# Linear classifier.
 
 feature_columns = learn.infer_real_valued_columns_from_input(mnist.train.images)
 classifier = learn.LinearClassifier(
@@ -40,7 +40,7 @@ score = metrics.accuracy_score(
     mnist.test.labels, classifier.predict(mnist.test.images))
 print('Accuracy: {0:f}'.format(score))
 
-### Convolutional network
+# Convolutional network
 
 
 def max_pool_2x2(tensor_in):
@@ -81,28 +81,28 @@ print('Accuracy: {0:f}'.format(score))
 
 # Examining fitted weights
 
-## General usage is classifier.get_tensor_value('foo')
-## 'foo' must be the variable scope of the desired tensor followed by the
-## graph path.
+# General usage is classifier.get_tensor_value('foo')
+# 'foo' must be the variable scope of the desired tensor followed by the
+# graph path.
 
-## To understand the mechanism and figure out the right scope and path, you can
-## do logging. Then use TensorBoard or a text editor on the log file to look at
-## available strings.
+# To understand the mechanism and figure out the right scope and path, you can
+# do logging. Then use TensorBoard or a text editor on the log file to look at
+# available strings.
 
-## First Convolutional Layer
+# First Convolutional Layer
 print('1st Convolutional Layer weights and Bias')
 print(classifier.get_tensor_value('conv_layer1/convolution/filters:0'))
 print(classifier.get_tensor_value('conv_layer1/convolution/bias:0'))
 
-## Second Convolutional Layer
+# Second Convolutional Layer
 print('2nd Convolutional Layer weights and Bias')
 print(classifier.get_tensor_value('conv_layer2/convolution/filters:0'))
 print(classifier.get_tensor_value('conv_layer2/convolution/bias:0'))
 
-## Densely Connected Layer
+# Densely Connected Layer
 print('Densely Connected Layer weights')
 print(classifier.get_tensor_value('dnn/layer0/Linear/Matrix:0'))
 
-## Logistic Regression weights
+# Logistic Regression weights
 print('Logistic Regression weights')
 print(classifier.get_tensor_value('logistic_regression/weights:0'))

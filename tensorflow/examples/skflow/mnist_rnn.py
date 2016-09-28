@@ -37,7 +37,7 @@ n_steps = 28  # timesteps
 n_hidden = 128  # hidden layer num of features
 n_classes = 10  # MNIST total classes (0-9 digits)
 
-### Download and load MNIST data.
+# Download and load MNIST data.
 mnist = learn.datasets.load_dataset('mnist')
 
 X_train = mnist.train.images

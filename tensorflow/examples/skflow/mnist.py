@@ -26,11 +26,11 @@ from sklearn import metrics
 import tensorflow as tf
 from tensorflow.contrib import learn
 
-### Download and load MNIST data.
+# Download and load MNIST data.
 
 mnist = learn.datasets.load_dataset('mnist')
 
-### Linear classifier.
+# Linear classifier.
 
 feature_columns = learn.infer_real_valued_columns_from_input(mnist.train.images)
 classifier = learn.LinearClassifier(
@@ -41,7 +41,7 @@ score = metrics.accuracy_score(
     mnist.test.labels, classifier.predict(mnist.test.images))
 print('Accuracy: {0:f}'.format(score))
 
-### Convolutional network
+# Convolutional network
 
 
 def max_pool_2x2(tensor_in):
