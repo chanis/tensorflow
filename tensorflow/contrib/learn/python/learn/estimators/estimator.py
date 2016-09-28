@@ -492,7 +492,7 @@ class BaseEstimator(
         string key to `Tensor` and targets is a `Tensor` that's currently not
         used (and so can be `None`).
       input_feature_key: Only used if `use_deprecated_input_fn` is false. String
-        key into the features dict returned by `input_fn` that corresponds to
+        key into the features dict returned by `input_fn` that corresponds toa 
         the raw `Example` strings `Tensor` that the exported model will take as
         input.
       use_deprecated_input_fn: Determines the signature format of `input_fn`.
@@ -505,17 +505,24 @@ class BaseEstimator(
         `signature_fn` without filtering.
       default_batch_size: Default batch size of the `Example` placeholder.
       exports_to_keep: Number of exports to keep.
+
+    Returns:
+      The string path to the exported directory. NB: this functionality was
+      added ca. 2016/09/25; clients that depend on the return value may need
+      to handle the case where this function returns None because subclasses
+      are not returning a value.
     """
     # pylint: disable=protected-access
-    export._export_estimator(estimator=self,
-                             export_dir=export_dir,
-                             signature_fn=signature_fn,
-                             prediction_key=prediction_key,
-                             input_fn=input_fn,
-                             input_feature_key=input_feature_key,
-                             use_deprecated_input_fn=use_deprecated_input_fn,
-                             default_batch_size=default_batch_size,
-                             exports_to_keep=exports_to_keep)
+    return export._export_estimator(
+        estimator=self,
+        export_dir=export_dir,
+        signature_fn=signature_fn,
+        prediction_key=prediction_key,
+        input_fn=input_fn,
+        input_feature_key=input_feature_key,
+        use_deprecated_input_fn=use_deprecated_input_fn,
+        default_batch_size=default_batch_size,
+        exports_to_keep=exports_to_keep)
     # pylint: enable=protected-access
 
   @abc.abstractproperty
